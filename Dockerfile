@@ -1,5 +1,7 @@
 FROM python:3.8.2-alpine3.11
 
+COPY requirements.txt /
+
 RUN set -ex \
     && apk upgrade --no-cache \
     && apk add --upgrade --no-cache --virtual .build-deps  \
@@ -12,12 +14,8 @@ RUN set -ex \
         'setuptools' \
         'pip' \
         'wheel' \
-    && python3 -m pip install --no-cache-dir --upgrade --upgrade-strategy='eager' \
-        'asgiref==3.2.5' \
-        'google-cloud-secret-manager==0.2.0' \
-        'google-cloud-storage==1.26.0' \
-        'starlette==0.13.2' \
-        'uvicorn==0.11.3' \
+    && python3 -m pip install --no-cache-dir -r 'requirements.txt' --require-hashes \
+    && rm 'requirements.txt' \
     && apk del .build-deps
 
 COPY ./app /app
