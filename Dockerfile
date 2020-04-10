@@ -1,5 +1,7 @@
 FROM python:3.8.2-alpine3.11
 
+ENV GRPC_PYTHON_BUILD_EXT_COMPILER_JOBS 16
+
 COPY requirements.txt /
 
 RUN set -ex \
