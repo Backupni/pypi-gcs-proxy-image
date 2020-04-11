@@ -2,7 +2,7 @@ FROM python:3.8.2-buster
 
 COPY requirements.txt /
 
-RUN set -Eeuxo pipefail \
+RUN set -Eeux \
     && apt update \
     && apt full-upgrade -y \
     && python3 -m pip install --no-cache-dir --upgrade --upgrade-strategy='eager' \
