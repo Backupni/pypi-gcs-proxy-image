@@ -126,7 +126,7 @@ class BasicAuthSecretManagerBackend(AuthenticationBackend):
         if username != '__token__':
             raise AuthenticationError('Incorrect username. Only token are allowed. Please, set username to __token__')
 
-        token_response: AccessSecretVersionResponse = await sync_to_async(self.client.access_secret_version)(TOKEN_NAME)
+        token_response: AccessSecretVersionResponse = await sync_to_async(self.client.access_secret_version)(request={'name': TOKEN_NAME})
         token_response_data: str = token_response.payload.data.decode()
         auth_tokens: Set[str] = set(token_response_data.split())
 
