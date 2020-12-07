@@ -9,23 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.CUSTOM_TOKEN }}
-
       - name: Trigger Docker Hub Build
         env:
           DOCKER_HUB_TRIGGER_URL: ${{ secrets.DOCKER_HUB_TRIGGER_URL }}
         run: curl --request 'POST' "$DOCKER_HUB_TRIGGER_URL"
-        shell: bash
-
-      - name: Re-assign tags
-        run: |
-          git fetch --depth=1 origin "+refs/tags/*:refs/tags/*"
-          while read -r line;
-          do
-            tag="${line#* }"
-            git push origin :${tag}
-            git push origin ${tag}
-          done < <(git show-ref --tags -d)
         shell: bash
